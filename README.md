@@ -1,8 +1,8 @@
 docker-tomcat-youtrack
 ======================
 
-Docker with tomcat and youtrack
-
+Dockerfile for youtrack to run under tomcat. Tomcat is needed to have context so that it can placed in sub location like http://youdomain.name/youtrack/, standalone youtrack.jar does not work in the case. Youtracks runs under localhost:8080/youtrack.
+All youtrack data is placed under the directory mapped to /var/lib/youtrack in the container. As extra bonus dockerized youtrack is registered as ubunut service docker-youtrack and a front-end server ngnix is configured.
 
 ## run it as service
 
