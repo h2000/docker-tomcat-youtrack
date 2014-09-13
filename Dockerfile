@@ -1,4 +1,4 @@
-FROM dockerfile/ubuntu
+FROM ubuntu:14.04
 
 # Install Java incl. wget, pwgen, ca-certificates
 RUN \
