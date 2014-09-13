@@ -6,7 +6,7 @@ All youtrack data is placed under the directory mapped to /var/lib/youtrack in t
 
 ## run it as service
 
-create database folder for you track
+create database folder for youtrack
 
 	$ mkdir -p /var/lib/youtrack
 
