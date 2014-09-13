@@ -1,6 +1,6 @@
 FROM dockerfile/ubuntu
 
-# Install Java incl. wget, pwgen, ca-certificates
+# install oracle java incl. wget, pwgen, ca-certificates
 RUN \
   echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   add-apt-repository -y ppa:webupd8team/java && \
@@ -10,7 +10,7 @@ RUN \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-# INSTALL TOMCAT
+# install tomcat
 ENV TOMCAT_MAJOR_VERSION 7
 ENV TOMCAT_MINOR_VERSION 7.0.55
 ENV CATALINA_HOME /tomcat
