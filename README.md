@@ -32,7 +32,14 @@ start the service
 ### nginx setup
 copy _etc_nginx_sites-available/youtrack file to /etc/nginx/sites-available
 
-change your server name in the youtrack file and reload nginx
+change your server name in the youtrack file 
+
+link /etc/nginx/sites-available/youtrack to /etc/nginx/sites-enabled
+
+	$ ln -s /etc/nginx/sites-available/youtrack /etc/nginx/sites-enabled/youtrack
+
+
+reload nginx
 
 	$ service nginx reload
 
