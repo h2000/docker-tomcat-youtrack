@@ -7,7 +7,7 @@ All youtrack data is placed in the directory mapped to /var/lib/youtrack in the 
 ## prerequisites
 - ubunut >= 12.00 as host system
 - working docker installation
-- start nginx installation
+- standard nginx installation
 
 ## run it as service
 
