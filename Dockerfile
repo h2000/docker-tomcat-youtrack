@@ -4,9 +4,11 @@ FROM dockerfile/ubuntu
 RUN \
   echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -yq --no-install-recommends wget pwgen ca-certificates && \
+  apt-get -y update && \
+  apt-get install -yq --no-install-recommends wget pwgen ca-certificates ca-certificates-java && \
   apt-get install -y oracle-java7-installer && \
+  rm -rf /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
+  ln -sf /etc/ssl/certs/java/cacerts /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
