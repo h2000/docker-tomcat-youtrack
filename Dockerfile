@@ -9,6 +9,7 @@ RUN \
   apt-get install -y oracle-java7-installer && \
   rm -rf /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
   ln -sf /etc/ssl/certs/java/cacerts /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
+  apt-get install --only-upgrade bash && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
