@@ -19,7 +19,7 @@ download image and run container
 
 	$ docker run -t -i -p 8888:8080 -v /var/lib/youtrack:/var/lib/youtrack h2000/docker-tomcat-youtrack
 
-if deployment and starting of youtrach is finished stop the loggs with CTRL+C
+if the deployment and starting of youtrack is finished stop the logs with CTRL+C
 
 ### register docker youtrack service
 
