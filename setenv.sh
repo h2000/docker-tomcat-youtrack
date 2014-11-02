@@ -1,7 +1,7 @@
  #-Duser.home=/var/lib/youtrack  \
 export CATALINA_OPTS="$CATALINA_OPTS \
- -XX:MaxPermSize=150m \
- -Xmx512m  \
+ -XX:MaxPermSize=256m \
+ -Xmx1024m  \
  -Ddatabase.location=/var/lib/youtrack/teamsysdata \
  -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts  \
  -Djavax.net.ssl.trustStorePassword=changeit  \
