@@ -28,7 +28,7 @@ RUN rm -rf /tomcat/webapps/*
 
 
 # install youtrack
-ENV YOUTRACK_VERSION 5.2.5-8823
+ENV YOUTRACK_VERSION 6.0.12124
 
 RUN \ 
  mkdir -p /var/lib/youtrack && \
