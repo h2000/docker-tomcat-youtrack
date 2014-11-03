@@ -17,7 +17,7 @@ create data folder for youtrack
 
 download image and run container
 
-	$ docker create -t -i -p 8080:8080 -v /var/lib/youtrack:/var/lib/youtrack h2000/docker-tomcat-youtrack --name docker-youtrack
+	$ docker create -t -i -p 8080:8080 -v /var/lib/youtrack:/var/lib/youtrack  --name docker-youtrack h2000/docker-tomcat-youtrack
 
 ### register docker youtrack service
 
