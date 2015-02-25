@@ -13,19 +13,6 @@ RUN \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-# install tomcat
-ENV TOMCAT_MAJOR_VERSION 7
-ENV TOMCAT_MINOR_VERSION 7.0.55
-ENV CATALINA_HOME /tomcat
-
-RUN \
-	wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
-    wget -qO- https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.md5 | md5sum -c - && \
-    tar zxf apache-tomcat-*.tar.gz && \
-    rm apache-tomcat-*.tar.gz && \
-    mv apache-tomcat* /tomcat 
-RUN rm -rf /tomcat/webapps/*
-
 
 # install youtrack
 ENV YOUTRACK_VERSION 5.2.5-8823
@@ -35,10 +22,6 @@ RUN \
  wget -nv  http://download.jetbrains.com/charisma/youtrack-${YOUTRACK_VERSION}.war -O /tomcat/webapps/youtrack.war && \
  rm -rf /tmp/* /var/tmp/*
 
-# tomcat
-ADD run.sh /tomcat/run.sh
-ADD setenv.sh /tomcat/bin/setenv.sh
-RUN chmod +x /tomcat/*.sh && chmod +x /tomcat/bin/setenv.sh
 
 # youtrack
 ADD log4j.xml /etc/youtrack/log4j.xml 
