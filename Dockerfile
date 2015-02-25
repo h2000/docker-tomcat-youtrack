@@ -39,4 +39,11 @@ ADD log4j.xml /etc/youtrack/log4j.xml
 VOLUME /var/lib/youtrack
 EXPOSE 8080
 
-CMD ["/bin/bash", "-e", "/tomcat/run.sh"]
+CMD ["java", "-Xmx1g", "\  
+ -Ddatabase.location=/var/lib/youtrack/teamsysdata \
+ -Djetbrains.youtrack.disableBrowser=true  \
+ -Djetbrains.youtrack.enableGuest=false  \
+ -Djetbrains.mps.webr.log4jPath=/etc/youtrack/log4j.xml  \
+ -Djava.awt.headless=true \
+ ", \
+"-jar", "youtrack.jar", "8080/youtrack"]
