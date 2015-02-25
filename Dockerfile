@@ -23,7 +23,7 @@ ENV YOUTRACK_BUILD 6.0.12619
 
 RUN mkdir -p /youtrack/dist
 WORKDIR /youtrack/dist
-ADD https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist
+ADD https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist/
 RUN chmod +r youtrack-${YOUTRACK_BUILD}.jar && \
     ln -s youtrack-${YOUTRACK_BUILD}.jar youtrack.jar
     
