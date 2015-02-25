@@ -24,8 +24,8 @@ ENV YOUTRACK_BUILD 6.0.12619
 RUN mkdir -p /youtrack/dist
 WORKDIR /youtrack/dist
 ADD https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist/
-RUN chmod +r youtrack-${YOUTRACK_BUILD}.jar && \
-    ln -s youtrack-${YOUTRACK_BUILD}.jar youtrack.jar
+RUN chmod +r /youtrack/dist/youtrack-${YOUTRACK_BUILD}.jar && \
+    ln -s /youtrack/dist/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist/youtrack.jar
     
 RUN mkdir /youtrack/home
 RUN groupadd -r youtrack
@@ -46,4 +46,4 @@ CMD ["java", "-Xmx1g", "\
  -Djetbrains.mps.webr.log4jPath=/etc/youtrack/log4j.xml  \
  -Djava.awt.headless=true \
  ", \
-"-jar", "youtrack.jar", "8080/youtrack"]
+"-jar", "/youtrack/dist/youtrack.jar", "8080/youtrack"]
