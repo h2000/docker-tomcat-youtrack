@@ -1,48 +1,42 @@
 FROM dockerfile/ubuntu
 
-# install oracle java incl. wget, pwgen, ca-certificates
-RUN \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get -y update && \
-  apt-get install -yq --no-install-recommends wget pwgen ca-certificates ca-certificates-java && \
-  apt-get install -y oracle-java7-installer && \
-  rm -rf /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
-  ln -sf /etc/ssl/certs/java/cacerts /usr/lib/jvm/java-7-oracle/jre/lib/security/cacerts && \
-  apt-get install --only-upgrade bash && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 
-# install tomcat
-ENV TOMCAT_MAJOR_VERSION 7
-ENV TOMCAT_MINOR_VERSION 7.0.55
-ENV CATALINA_HOME /tomcat
+ENV JAVA_VERSION 8u40~b22
+ENV JAVA_DEBIAN_VERSION 8u40~b22-2
 
-RUN \
-	wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
-    wget -qO- https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.md5 | md5sum -c - && \
-    tar zxf apache-tomcat-*.tar.gz && \
-    rm apache-tomcat-*.tar.gz && \
-    mv apache-tomcat* /tomcat 
-RUN rm -rf /tomcat/webapps/*
+# see https://bugs.debian.org/775775
+# and https://github.com/docker-library/java/issues/19#issuecomment-70546872
+ENV CA_CERTIFICATES_JAVA_VERSION 20140324
 
+RUN apt-get update
+RUN apt-get install -y \
+  openjdk-7-jre-headless \
+  ca-certificates-java \
+&& rm -rf /var/lib/apt/lists/*
+
+# see CA_CERTIFICATES_JAVA_VERSION notes above
+RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
 # install youtrack
-ENV YOUTRACK_VERSION 5.2.5-8823
+ENV YOUTRACK_BUILD 6.0.12619
 
-RUN \ 
- mkdir -p /var/lib/youtrack && \
- wget -nv  http://download.jetbrains.com/charisma/youtrack-${YOUTRACK_VERSION}.war -O /tomcat/webapps/youtrack.war && \
- rm -rf /tmp/* /var/tmp/*
+RUN mkdir -p /youtrack/dist
+WORKDIR /youtrack/dist
+ADD https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist/
+RUN chmod +r /youtrack/dist/youtrack-${YOUTRACK_BUILD}.jar && \
+    ln -s /youtrack/dist/youtrack-${YOUTRACK_BUILD}.jar /youtrack/dist/youtrack.jar
+    
+RUN mkdir /youtrack/home
+RUN groupadd -r youtrack
+RUN useradd -r -g youtrack -d /youtrack/home youtrack
+RUN chown -R youtrack:youtrack /youtrack/home
 
-# tomcat
-ADD run.sh /tomcat/run.sh
-ADD setenv.sh /tomcat/bin/setenv.sh
-RUN chmod +x /tomcat/*.sh && chmod +x /tomcat/bin/setenv.sh
-
+USER youtrack
+    
 # youtrack
 ADD log4j.xml /etc/youtrack/log4j.xml 
 VOLUME /var/lib/youtrack
 EXPOSE 8080
 
-CMD ["/bin/bash", "-e", "/tomcat/run.sh"]
+CMD java -Xmx1g -Ddatabase.location=/var/lib/youtrack/teamsysdata -Djetbrains.youtrack.disableBrowser=true -Djetbrains.youtrack.enableGuest=false -Djetbrains.mps.webr.log4jPath=/etc/youtrack/log4j.xml -Djava.awt.headless=true -jar /youtrack/dist/youtrack.jar 8080/youtrack
