@@ -19,7 +19,7 @@ RUN apt-get install -y \
 RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
 # install youtrack
-ENV YOUTRACK_BUILD 6.0.12619
+ENV YOUTRACK_BUILD 6.5.16713
 
 RUN mkdir -p /youtrack/dist
 WORKDIR /youtrack/dist
