@@ -1,6 +1,9 @@
-FROM dockerfile/ubuntu
+FROM phusion/baseimage:0.9.17
 
-RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
+RUN apt-get update && apt-get install -y unzip
 
 ENV JAVA_VERSION 8u40~b22
 ENV JAVA_DEBIAN_VERSION 8u40~b22-2
@@ -12,8 +15,10 @@ ENV CA_CERTIFICATES_JAVA_VERSION 20140324
 RUN apt-get update
 RUN apt-get install -y \
   openjdk-7-jre-headless \
-  ca-certificates-java \
-&& rm -rf /var/lib/apt/lists/*
+  ca-certificates-java 
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # see CA_CERTIFICATES_JAVA_VERSION notes above
 RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
